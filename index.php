@@ -1,3 +1,12 @@
+<?php
+require_once("config/conexion.php");
+if(isset($_POST["enviar"]) and $_POST["enviar"]=="si"){
+        require_once("models/Usuario.php");
+        $usuario = new Usuario();
+        $usuario->login();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 <head lang="es">
@@ -23,31 +32,58 @@
     <div class="page-center">
         <div class="page-center-in">
             <div class="container-fluid">
-                <form class="sign-box">
+                <form class="sign-box" action="" method="post" id="login_form">
                     <div class="sign-avatar">
                         <img src="public/img/avatar-sign.png" alt="">
                     </div>
                     <header class="sign-title">Sign In</header>
+                    <?php
+                        if(isset($_GET["m"])){
+                            switch($_GET["m"]){
+                                case "1";
+                                ?>
+                                    <div class="alert alert-danger alert-icon alert-close alert-dismissible fade in" role="alert">
+                                        <button type="button" class="close" data-dismmis="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <div class="d-flex align-items-center justify-content-start">
+                                            <i class="font-icon font-icon-warning"></i>
+                                            <span>The username or password is incorrect</span>
+                                        </div>
+                                    </div>
+                                <?php
+                                break;
+
+                                case "2";
+                                ?>
+                                    <div class="alert alert-danger alert-icon alert-close alert-dismissible fade in" role="alert">
+                                            <button type="button" class="close" data-dismmis="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <div class="d-flex align-items-center justify-content-start">
+                                                <i class="font-icon font-icon-warning"></i>
+                                                <span>The fields are empty</span>
+                                            </div>
+                                    </div>
+                                <?php
+                                break;
+                            }
+
+                        }
+                    ?>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="E-Mail or Phone"/>
+                        <input type="text" id="usu_correo" name="usu_correo" class="form-control" placeholder="E-Mail"/>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Password"/>
+                        <input type="password" id="usu_pass" name="usu_pass" class="form-control" placeholder="Password"/>
                     </div>
                     <div class="form-group">
-                        <div class="checkbox float-left">
-                            <input type="checkbox" id="signed-in"/>
-                            <label for="signed-in">Keep me signed in</label>
-                        </div>
                         <div class="float-right reset">
                             <a href="reset-password.html">Reset Password</a>
                         </div>
                     </div>
+                    <input type="hidden" name="enviar" class="form-control" value="si">
                     <button type="submit" class="btn btn-rounded">Sign in</button>
-                    <p class="sign-note">New to our website? <a href="sign-up.html">Sign up</a></p>
-                    <!--<button type="button" class="close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>-->
                 </form>
             </div>
         </div>
