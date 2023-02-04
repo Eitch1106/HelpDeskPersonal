@@ -32,11 +32,14 @@ if(isset($_POST["enviar"]) and $_POST["enviar"]=="si"){
     <div class="page-center">
         <div class="page-center-in">
             <div class="container-fluid">
+
+                <input type="hidden" id="rol_id" name="rol_id" value="1"></input>
+
                 <form class="sign-box" action="" method="post" id="login_form">
                     <div class="sign-avatar">
                         <img src="public/img/avatar-sign.png" alt="">
                     </div>
-                    <header class="sign-title">Sign In</header>
+                    <header class="sign-title" id="lbltitulo">Acces as User</header>
                     <?php
                         if(isset($_GET["m"])){
                             switch($_GET["m"]){
@@ -81,6 +84,9 @@ if(isset($_POST["enviar"]) and $_POST["enviar"]=="si"){
                         <div class="float-right reset">
                             <a href="reset-password.html">Reset Password</a>
                         </div>
+                        <div class="float-left reset">
+                            <a href="#" id="btnsoporte">Access as support</a>
+                        </div>
                     </div>
                     <input type="hidden" name="enviar" class="form-control" value="si">
                     <button type="submit" class="btn btn-rounded">Sign in</button>
@@ -112,5 +118,7 @@ if(isset($_POST["enviar"]) and $_POST["enviar"]=="si"){
         });
     </script>
 <script src="public/js/app.js"></script>
+
+<script type="text/javascript" src="index.js"></script>
 </body>
 </html>
