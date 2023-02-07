@@ -43,7 +43,8 @@
 	                            
 	                        </div>
 
-							<input type="hidden" id="user_idx" value="<?php echo$_SESSION["usu_id"] ?>"> <!-- Id global from user -->
+							<input type="hidden" id="user_idx" value="<?php echo $_SESSION["usu_id"] ?>"> <!-- Id global from user -->
+							<input type="hidden" id="rol_idx" value="<?php echo $_SESSION["rol_id"] ?>"> <!-- Rol_id global from type user -->
 
 	                        <div class="dropdown dropdown-typical">
 	                            <a class="dropdown-toggle no-arr"" href="#">

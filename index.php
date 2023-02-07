@@ -32,10 +32,8 @@ if(isset($_POST["enviar"]) and $_POST["enviar"]=="si"){
     <div class="page-center">
         <div class="page-center-in">
             <div class="container-fluid">
-
-                <input type="hidden" id="rol_id" name="rol_id" value="1"></input>
-
                 <form class="sign-box" action="" method="post" id="login_form">
+                    <input type="hidden" id="rol_id" name="rol_id" value="1"></input>
                     <div class="sign-avatar">
                         <img src="public/img/avatar-sign.png" alt="">
                     </div>
