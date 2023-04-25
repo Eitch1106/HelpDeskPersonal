@@ -7,7 +7,30 @@ $(document).ready(function(){
     
     $.post("../../controller/ticket.php?op=listardetalle", { tick_id : tick_id }, function (data) {
         $('#lbldetalle').html(data);
-    }); 
+    });
+    
+    $('#tickd_descrip').summernote({
+        height: 150,
+        lang: "es-ES",
+        callbacks: {
+            onImageUpload: function(image) {
+                console.log("Image detect...");
+                myimagetreat(image[0]);
+            },
+            onPaste: function (e) {
+                console.log("Text detect...");
+            }
+        },
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']]
+        ]
+    });
+
     /*listardetalle(tick_id);
 
     $('#tickd_descrip').summernote({

@@ -7,6 +7,15 @@ function init() {
 $(document).ready(function () {
   $("#tick_descrip").summernote({
     height: 250,
+    callbacks:{
+      onImageUpload: function(image){
+        console.log("Image detect...");
+        myimagetreat(image[0]);
+      },
+      onPaste: function(e){
+        console.log("Text detect...");
+      }
+    }
   });
   //Llenado de comboBox de las categorias orfecidas desde la DB
   $.post("../../controller/categoria.php?op=comboCat", function (data, status) {
