@@ -8,6 +8,29 @@ $(document).ready(function(){
     $.post("../../controller/ticket.php?op=listardetalle", { tick_id : tick_id }, function (data) {
         $('#lbldetalle').html(data);
     });
+
+    $.post("../../controller/ticket.php?op=mostrar", { tick_id : tick_id }, function (data){
+        data = JSON.parse(data);
+        $('#lblestado').html(data.tick_estado);
+        $('#lblnomusuario').html(data.usu_nom +' '+data.usu_ape);
+        $('#lblfechcrea').html(data.fech_crea);
+
+        $('#lblnomidticket').html("Detalle de ticket - " + data.tick_id);
+
+        $('#cat_nom').val(data.cat_nom);
+
+        $('#tick_titulo').val(data.tick_titulo);
+
+        $('#tick_staff').val(data.nombre_staff);
+
+        $('#tickd_descripusu').summernote('code',data.tick_descrip);
+
+        if(data.tick_estado_texto == "Cerrado"){
+            $('#pnldetalle').hide();
+        }
+        
+        
+    });
     
     $('#tickd_descrip').summernote({
         height: 150,
@@ -30,6 +53,13 @@ $(document).ready(function(){
             ['height', ['height']]
         ]
     });
+
+    $('#tickd_descripusu').summernote({
+        height: 150,
+        lang: "es-ES",
+    });
+
+    $('#tickd_descripusu').summernote('disable');
 
     /*listardetalle(tick_id);
 
@@ -139,7 +169,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 };
-/*
+
 $(document).on("click","#btnenviar", function(){
     var tick_id = getUrlParameter('ID');
     var usu_id = $('#user_idx').val();
@@ -159,7 +189,7 @@ $(document).on("click","#btnenviar", function(){
 $(document).on("click","#btncerrarticket", function(){
     swal({
         title: "HelpDesk",
-        text: "Esta seguro de Cerrar el Ticket?",
+        text: "Está seguro de Cerrar el Ticket?",
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn-warning",
@@ -214,6 +244,6 @@ function listardetalle(tick_id){
             $('#pnldetalle').hide();
         }
     }); 
-}*/
+}
 
 init();

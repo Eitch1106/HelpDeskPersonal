@@ -8,6 +8,15 @@ switch ($_GET["op"]) {
         $ticket->insert_ticket($_POST["usu_id"], $_POST["cat_id"], $_POST["tick_titulo"], $_POST["tick_descrip"], $_POST["staff_id"]);
         break;
 
+    case "update":
+        $ticket->update_ticket($_POST["tick_id"]);
+        $ticket->insert_ticketdetalle_cerrar($_POST["tick_id"],$_POST["usu_id"]);
+        break;
+
+    case "insertdetalle":
+            $ticket->insert_ticketdetalle($_POST["tick_id"], $_POST["usu_id"], $_POST["tickd_descrip"]);
+            break;
+
     case "listar_x_usu":
         $datos = $ticket->listar_ticket_x_usu($_POST["usu_id"]);
         $data = array();
@@ -82,7 +91,7 @@ switch ($_GET["op"]) {
                     <div class="activity-line-item-user">
                         <div class="activity-line-item-user-photo">
                             <a href="#">
-                                <img src="../../public/img/photo-64-2.jpg" alt="">
+                                <img src="../../public/img/<?php echo $row['rol_id']?>.png" alt="">
                             </a>
                         </div>
                         <div class="activity-line-item-user-name"><?php echo $row['usu_nom'].' '.$row['usu_ape']?></div>
@@ -113,6 +122,37 @@ switch ($_GET["op"]) {
         ?>
 <?php
 
+        break;
+
+        case "mostrar";
+            $datos=$ticket->listar_ticket_x_id($_POST["tick_id"]);  
+            if(is_array($datos)==true and count($datos)>0){
+                foreach($datos as $row)
+                {
+                    $output["tick_id"] = $row["tick_id"];
+                    $output["usu_id"] = $row["usu_id"];
+                    $output["cat_id"] = $row["cat_id"];
+
+                    $output["tick_titulo"] = $row["tick_titulo"];
+                    $output["tick_descrip"] = $row["tick_descrip"];
+                    $output["tick_estado_texto"] = $row["tick_estado"];
+
+                    if ($row["tick_estado"]=="Abierto"){
+                        $output["tick_estado"] = '<span class="label label-pill label-success">Abierto</span>';
+                    }else{
+                        $output["tick_estado"] = '<span class="label label-pill label-danger">Cerrado</span>';
+                    }
+
+                    $output["tick_estado_texto"] = $row["tick_estado"];
+
+                    $output["fech_crea"] = date("d/m/Y H:i:s", strtotime($row["fech_crea"]));
+                    $output["usu_nom"] = $row["usu_nom"];
+                    $output["usu_ape"] = $row["usu_ape"];
+                    $output["cat_nom"] = $row["cat_nom"];
+                    $output["nombre_staff"] = $row["nombre"];
+                }
+                echo json_encode($output);
+            }   
         break;
 }
 ?>

@@ -23,10 +23,10 @@ if (isset($_SESSION["usu_id"])) {
                     <div class="tbl">
                         <div class="tbl-row">
                             <div class="tbl-cell">
-                                <h3>Detalle de ticket - 1</h3>
-                                <span class="label label-pill label-danger">Cerrado</span>
-                                <span class="label label-pill label-primary">Name user</span>
-                                <span class="label label-pill label-default">Fecha creacion</span>
+                                <h3 id="lblnomidticket">Detalle de ticket - 1</h3>
+                                <div id="lblestado"></div>
+                                <span class="label label-pill label-primary" id="lblnomusuario"></span>
+                                <span class="label label-pill label-default" id="lblfechcrea"></span>
                                 <ol class="breadcrumb breadcrumb-simple">
                                     <li><a href="#">Home</a></li>
                                     <li class="active">Detalle de ticket</li>
@@ -58,8 +58,10 @@ if (isset($_SESSION["usu_id"])) {
                         </div>
                         <div class="col-lg-6">
                             <fieldset class="form-group">
-                                <label class="form-label semibold" for="tick_descrip">Descripción</label>
-                                <input type="text" class="form-control" id="tick_titulo" name="tick_titulo" readonly>
+                                <label class="form-label semibold" for="tickd_descripusu">Descripción</label>
+                                <div class="summernote-theme-1">
+									<textarea id="tickd_descripusu" class="summernote" name="tickd_descripusu" name="name"></textarea>
+								</div>
                                 <!-- <div class="summernote-theme-1">
                                     <textarea id="tick_descrip" class="summernote" name="tick_descrip" name="name"></textarea>
                                 </div> -->
@@ -71,9 +73,9 @@ if (isset($_SESSION["usu_id"])) {
                 <section class="activity-line" id="lbldetalle">
                 </section><!--.activity-line-->
 
-                <div class="box-typical box-typical-padding">
+                <div class="box-typical box-typical-padding" id="pnldetalle">
 					
-					<p>Ingrese su duda o consulta</p>
+					<p>Ingrese su comentario</p>
 
 					<div class="row">					
 							<div class="col-lg-12">
@@ -85,8 +87,8 @@ if (isset($_SESSION["usu_id"])) {
 								</fieldset>
 							</div>
 							<div class="col-lg-12 align-self-center">
-								<button type="submit" name="action" value="add" class="btn btn-rounded btn-inline btn-primary">Enviar</button>
-                                <button type="submit" name="action" value="add" class="btn btn-rounded btn-inline btn-danger">Cerrar Ticket</button>
+								<button type="button" id="btnenviar" class="btn btn-rounded btn-inline btn-primary">Enviar</button>
+                                <button type="button" id="btncerrarticket" class="btn btn-rounded btn-inline btn-warning">Cerrar Ticket</button>
 							</div>
 						
 					</div><!--.row-->

@@ -16,6 +16,19 @@ class Ticket extends Conectar
         return $resultado = $sql->fetchAll();
     }
 
+    public function insert_ticketdetalle($tick_id,$usu_id, $tickd_descrip)
+    {
+        $conectar = parent::conexion();
+        parent::set_names();
+        $sql = "INSERT INTO td_ticketdetalle (tickd_id,tick_id,usu_id,tickd_descrip,fech_crea,est) VALUES (NULL,?,?,?,now(),'1');";
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $tick_id);
+        $sql->bindValue(2, $usu_id);
+        $sql->bindValue(3, $tickd_descrip);
+        $sql->execute();
+        return $resultado = $sql->fetchAll();
+    }
+
     public function listar_ticket_x_usu($usu_id)
     {
         $conectar = parent::conexion();
@@ -51,6 +64,36 @@ class Ticket extends Conectar
         $sql->bindValue(1, $usu_id);
         $sql->execute();
         return $resultado = $sql->fetchAll();
+    }
+
+    public function listar_ticket_x_id($tick_id){
+        $conectar= parent::conexion();
+        parent::set_names();
+        $sql="SELECT 
+            tm_ticket.tick_id,
+            tm_ticket.usu_id,
+            tm_ticket.cat_id,
+            tm_ticket.tick_titulo,
+            tm_ticket.tick_descrip,
+            tm_ticket.tick_estado,
+            tm_ticket.fech_crea,
+            tm_usuario.usu_nom,
+            tm_usuario.usu_ape,
+            tm_usuario.usu_correo,
+            tm_categoria.cat_nom,
+            tm_staff.nombre
+            FROM 
+            tm_ticket
+            INNER join tm_categoria on tm_ticket.cat_id = tm_categoria.cat_id
+            INNER join tm_usuario on tm_ticket.usu_id = tm_usuario.usu_id
+            INNER join tm_staff on tm_ticket.staff_id = tm_staff.staff_id
+            WHERE
+            tm_ticket.est = 1
+            AND tm_ticket.tick_id = ?";
+        $sql=$conectar->prepare($sql);
+        $sql->bindValue(1, $tick_id);
+        $sql->execute();
+        return $resultado=$sql->fetchAll();
     }
 
     public function listar_tickets()
@@ -107,6 +150,29 @@ class Ticket extends Conectar
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $tick_id);
+        $sql->execute();
+        return $resultado = $sql->fetchAll();
+    }
+
+    public function update_ticket($tick_id)
+    {
+        $conectar = parent::conexion();
+        parent::set_names();
+        $sql = "update tm_ticket SET tick_estado = 'Cerrado' WHERE tick_id = ? ";
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $tick_id);
+        $sql->execute();
+        return $resultado = $sql->fetchAll();
+    }
+
+    public function insert_ticketdetalle_cerrar($tick_id,$usu_id)
+    {
+        $conectar = parent::conexion();
+        parent::set_names();
+        $sql = "INSERT INTO td_ticketdetalle (tickd_id,tick_id,usu_id,tickd_descrip,fech_crea,est) VALUES (NULL,?,?,'Ticket cerrado...',now(),'1');";
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $tick_id);
+        $sql->bindValue(2, $usu_id);
         $sql->execute();
         return $resultado = $sql->fetchAll();
     }
