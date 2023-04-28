@@ -43,6 +43,12 @@ if ($_SESSION["rol_id"] == 1) {
                     <span class="lbl">Consultar Ticket</span>
                 </a>
             </li>
+            <li class="blue-dirty">
+                <a href="..\MntUser\">
+                    <span class="glyphicon glyphicon-th"></span>
+                    <span class="lbl">Soporte Usuarios</span>
+                </a>
+            </li>
         </ul>
     </nav><!--.side-menu-->
 
