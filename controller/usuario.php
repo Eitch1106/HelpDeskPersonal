@@ -46,7 +46,7 @@
             $usuario->delete_usuario($_POST["usu_id"]);
             break;
 
-        case "mostrar";
+        case "mostrar":
             $datos=$usuario->get_usuario_x_id($_POST["usu_id"]);  
             if(is_array($datos)==true and count($datos)>0){
                 foreach($datos as $row)
@@ -62,7 +62,7 @@
             }   
             break;
 
-        case "total";
+        case "total":
             $datos=$usuario->get_usuario_total_x_id($_POST["usu_id"]);  
             if(is_array($datos)==true and count($datos)>0){
                 foreach($datos as $row)
@@ -73,7 +73,7 @@
             }
             break;
 
-        case "totalabierto";
+        case "totalabierto":
             $datos=$usuario->get_usuario_totalabierto_x_id($_POST["usu_id"]);  
             if(is_array($datos)==true and count($datos)>0){
                 foreach($datos as $row)
@@ -84,7 +84,7 @@
             }
             break;
 
-        case "totalcerrado";
+        case "totalcerrado":
             $datos=$usuario->get_usuario_totalcerrado_x_id($_POST["usu_id"]);  
             if(is_array($datos)==true and count($datos)>0){
                 foreach($datos as $row)
@@ -95,12 +95,12 @@
             }
             break;
 
-        case "grafico";
+        case "grafico":
             $datos=$usuario->get_usuario_grafico($_POST["usu_id"]);  
             echo json_encode($datos);
             break;
 
-        case "combo";
+        case "combo":
             $datos = $usuario->get_usuario_x_rol();
             if(is_array($datos)==true and count($datos)>0){
                 $html.= "<option label='Seleccionar'></option>";
