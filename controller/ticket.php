@@ -79,7 +79,7 @@ switch ($_GET["op"]) {
 
     case "listardetalle":
         $datos = $ticket->listar_ticketdetalle_x_ticket($_POST["tick_id"]);
-?>
+    ?>
         <?php
         foreach ($datos as $row) {
         ?>
@@ -120,7 +120,7 @@ switch ($_GET["op"]) {
         <?php
         }
         ?>
-<?php
+    <?php
 
         break;
 

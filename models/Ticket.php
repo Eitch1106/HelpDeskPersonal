@@ -5,7 +5,7 @@ class Ticket extends Conectar
     {
         $conectar = parent::conexion();
         parent::set_names();
-        $sql = "INSERT INTO tm_ticket (tick_id,usu_id,cat_id,tick_titulo,tick_descrip,tick_estado,fech_crea,staff_id,est) VALUES (NULL,?,?,?,?,'Abierto',now(),?,'1');";
+        $sql = "call sp_i_ticket_01(?,?,?,?,?)";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $usu_id);
         $sql->bindValue(2, $cat_id);
@@ -20,7 +20,7 @@ class Ticket extends Conectar
     {
         $conectar = parent::conexion();
         parent::set_names();
-        $sql = "INSERT INTO td_ticketdetalle (tickd_id,tick_id,usu_id,tickd_descrip,fech_crea,est) VALUES (NULL,?,?,?,now(),'1');";
+        $sql = "call sp_i_ticketdetalle_02(?,?,?)";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $tick_id);
         $sql->bindValue(2, $usu_id);
@@ -33,33 +33,7 @@ class Ticket extends Conectar
     {
         $conectar = parent::conexion();
         parent::set_names();
-        $sql = "SELECT 
-            tm_ticket.tick_id,
-            tm_ticket.usu_id,
-            tm_ticket.cat_id,
-            tm_ticket.staff_id,
-            tm_ticket.tick_titulo,
-            tm_ticket.tick_descrip,
-            tm_ticket.tick_estado,
-            tm_ticket.fech_crea,
-            tm_usuario.usu_nom,
-            tm_usuario.usu_ape,
-            tm_categoria.cat_nom,
-            tm_staff.nombre,
-            tm_staff.apellidos
-            
-        FROM
-            tm_ticket
-                INNER JOIN
-            tm_categoria ON tm_ticket.cat_id = tm_categoria.cat_id
-                INNER JOIN
-            tm_usuario ON tm_ticket.usu_id = tm_usuario.usu_id
-                INNER JOIN
-            tm_staff ON tm_ticket.staff_id = tm_staff.staff_id
-        WHERE
-            tm_ticket.est = 1
-            AND tm_usuario.usu_id = ? order by tm_ticket.tick_id";
-
+        $sql = "call sp_l_ticketxusu_01(?)";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $usu_id);
         $sql->execute();
@@ -69,27 +43,7 @@ class Ticket extends Conectar
     public function listar_ticket_x_id($tick_id){
         $conectar= parent::conexion();
         parent::set_names();
-        $sql="SELECT 
-            tm_ticket.tick_id,
-            tm_ticket.usu_id,
-            tm_ticket.cat_id,
-            tm_ticket.tick_titulo,
-            tm_ticket.tick_descrip,
-            tm_ticket.tick_estado,
-            tm_ticket.fech_crea,
-            tm_usuario.usu_nom,
-            tm_usuario.usu_ape,
-            tm_usuario.usu_correo,
-            tm_categoria.cat_nom,
-            tm_staff.nombre
-            FROM 
-            tm_ticket
-            INNER join tm_categoria on tm_ticket.cat_id = tm_categoria.cat_id
-            INNER join tm_usuario on tm_ticket.usu_id = tm_usuario.usu_id
-            INNER join tm_staff on tm_ticket.staff_id = tm_staff.staff_id
-            WHERE
-            tm_ticket.est = 1
-            AND tm_ticket.tick_id = ?";
+        $sql="call sp_l_ticketxid_01(?)";
         $sql=$conectar->prepare($sql);
         $sql->bindValue(1, $tick_id);
         $sql->execute();
@@ -100,31 +54,7 @@ class Ticket extends Conectar
     {
         $conectar = parent::conexion();
         parent::set_names();
-        $sql = "SELECT 
-            tm_ticket.tick_id,
-            tm_ticket.usu_id,
-            tm_ticket.cat_id,
-            tm_ticket.staff_id,
-            tm_ticket.tick_titulo,
-            tm_ticket.tick_descrip,
-            tm_ticket.tick_estado,
-            tm_ticket.fech_crea,
-            tm_usuario.usu_nom,
-            tm_usuario.usu_ape,
-            tm_categoria.cat_nom,
-            tm_staff.nombre,
-            tm_staff.apellidos
-            
-        FROM
-            tm_ticket
-                INNER JOIN
-            tm_categoria ON tm_ticket.cat_id = tm_categoria.cat_id
-                INNER JOIN
-            tm_usuario ON tm_ticket.usu_id = tm_usuario.usu_id
-                INNER JOIN
-            tm_staff ON tm_ticket.staff_id = tm_staff.staff_id
-        WHERE
-            tm_ticket.est = 1 order by tm_ticket.tick_id" ;
+        $sql = "call sp_l_ticketgral_01()" ;
         $sql = $conectar->prepare($sql);
         $sql->execute();
         return $resultado = $sql->fetchAll();
@@ -134,19 +64,7 @@ class Ticket extends Conectar
     {
         $conectar = parent::conexion();
         parent::set_names();
-        $sql = "SELECT 
-                    td_ticketdetalle.tickd_id,
-                    td_ticketdetalle.tickd_descrip,
-                    td_ticketdetalle.fech_crea,
-                    tm_usuario.usu_nom,
-                    tm_usuario.usu_ape,
-                    tm_usuario.rol_id
-                FROM
-                    td_ticketdetalle
-                        INNER JOIN
-                    tm_usuario ON td_ticketdetalle.usu_id = tm_usuario.usu_id
-                WHERE
-                    tick_id = ?";
+        $sql = "call sp_l_ticketdetalle_02(?)";
 
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $tick_id);
@@ -158,7 +76,7 @@ class Ticket extends Conectar
     {
         $conectar = parent::conexion();
         parent::set_names();
-        $sql = "update tm_ticket SET tick_estado = 'Cerrado' WHERE tick_id = ? ";
+        $sql = "call sp_u_ticket_01(?)";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $tick_id);
         $sql->execute();
@@ -169,7 +87,7 @@ class Ticket extends Conectar
     {
         $conectar = parent::conexion();
         parent::set_names();
-        $sql = "INSERT INTO td_ticketdetalle (tickd_id,tick_id,usu_id,tickd_descrip,fech_crea,est) VALUES (NULL,?,?,'Ticket cerrado...',now(),'1');";
+        $sql = "call sp_i_ticketdetalle_01(?,?)";
         $sql = $conectar->prepare($sql);
         $sql->bindValue(1, $tick_id);
         $sql->bindValue(2, $usu_id);
@@ -180,7 +98,7 @@ class Ticket extends Conectar
     public function get_ticket_total(){
         $conectar= parent::conexion();
         parent::set_names();
-        $sql="SELECT COUNT(*) as TOTAL FROM tm_ticket";
+        $sql="call sp_l_tickettotal_01()";
         $sql=$conectar->prepare($sql);
         $sql->execute();
         return $resultado=$sql->fetchAll();
@@ -189,7 +107,7 @@ class Ticket extends Conectar
     public function get_ticket_totalabierto(){
         $conectar= parent::conexion();
         parent::set_names();
-        $sql="SELECT COUNT(*) as TOTAL FROM tm_ticket where tick_estado='Abierto'";
+        $sql="call sp_l_ticketabierto_01()";
         $sql=$conectar->prepare($sql);
         $sql->execute();
         return $resultado=$sql->fetchAll();
@@ -198,7 +116,7 @@ class Ticket extends Conectar
     public function get_ticket_totalcerrado(){
         $conectar= parent::conexion();
         parent::set_names();
-        $sql="SELECT COUNT(*) as TOTAL FROM tm_ticket where tick_estado='Cerrado'";
+        $sql="call sp_l_ticketcerrado_01()";
         $sql=$conectar->prepare($sql);
         $sql->execute();
         return $resultado=$sql->fetchAll();
@@ -207,14 +125,7 @@ class Ticket extends Conectar
     public function get_ticket_grafico(){
         $conectar= parent::conexion();
         parent::set_names();
-        $sql="SELECT tm_categoria.cat_nom as nom,COUNT(*) AS total
-            FROM   tm_ticket  JOIN  
-                tm_categoria ON tm_ticket.cat_id = tm_categoria.cat_id  
-            WHERE    
-            tm_ticket.est = 1
-            GROUP BY 
-            tm_categoria.cat_nom 
-            ORDER BY total DESC";
+        $sql="call sp_l_categoria_01()";
         $sql=$conectar->prepare($sql);
         $sql->execute();
         return $resultado=$sql->fetchAll();

@@ -26,7 +26,7 @@
 	                        <article class="statistic-box green">
 	                            <div>
 	                                <div class="number" id="lbltotal"></div>
-	                                <div class="caption"><div>Total de Tickets</div></div>
+	                                <div class="caption"><div>Total de tickets de servicio</div></div>
 	                            </div>
 	                        </article>
 	                    </div>
@@ -52,7 +52,7 @@
 
 			<section class="card">
 				<header class="card-header">
-					Grafico Estadístico
+					Estadísticas
 				</header>
 				<div class="card-block">
 					<div id="divgrafico" style="height: 250px;"></div>

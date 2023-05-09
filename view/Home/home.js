@@ -57,7 +57,8 @@ $(document).ready(function(){
                 data: data,
                 xkey: 'nom',
                 ykeys: ['total'],
-                labels: ['Value']
+                labels: ['Value'],
+                barColors:['#09C4CB']
             });
         }); 
 
