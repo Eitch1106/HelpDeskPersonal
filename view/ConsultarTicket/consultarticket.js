@@ -1,13 +1,18 @@
 var tabla;
 var usu_id = $('#user_idx').val();
 var rol_id = $('#rol_idx').val();
-console.log(usu_id + "usuario");
-console.log(rol_id + "rol");
 function init(){
-
+    $("#ticket_form").on("submit",function(e){
+        guardar(e);
+    });
 }
 
 $(document).ready(function(){
+    
+    $.post("../../controller/usuario.php?op=combo",function(data){
+        $('#usu_asig').html(data);
+    });
+    
     if(rol_id == 1){
         tabla=$('#ticket_data').dataTable({
             "aProcessing": true,
@@ -125,5 +130,33 @@ function ver(tick_id){
      window.open('http://localhost/HelpDeskPersonal/view/DetalleTicket/?ID='+ tick_id +'');
 
 }
+
+function asignar(tick_id){
+    $.post("../../controller/ticket.php?op=mostrar",{tick_id : tick_id},function(data){
+        data = JSON.parse(data);
+        $('#tick_id').val(data.tick_id);
+        $('#mdltitulo').html('Asignar Agente');
+        $("#modalasignar").modal('show');
+    });
+   
+}
+
+function guardar(e) {
+    e.preventDefault();
+    var formData = new FormData($("#ticket_form")[0]);
+      $.ajax({
+        url: "../../controller/ticket.php?op=asignar",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (datos) {
+        $("#modalasignar").modal('hide');
+        $('#ticket_data').DataTable().ajax.reload();
+        }
+      });
+    }
+    
+  
 
 init();

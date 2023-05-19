@@ -83,6 +83,23 @@ class Ticket extends Conectar
         return $resultado = $sql->fetchAll();
     }
 
+    public function update_ticket_asignacion($tick_id,$usu_asig)
+    {
+        $conectar = parent::conexion();
+        parent::set_names();
+        $sql = "update tm_ticket 
+            set 
+                usu_asig = ?,
+                fech_asig = now() 
+            where 
+                tick_id=?";
+        $sql = $conectar->prepare($sql);
+        $sql->bindValue(1, $usu_asig);
+        $sql->bindValue(2, $tick_id);
+        $sql->execute();
+        return $resultado = $sql->fetchAll();
+    }
+
     public function insert_ticketdetalle_cerrar($tick_id,$usu_id)
     {
         $conectar = parent::conexion();
