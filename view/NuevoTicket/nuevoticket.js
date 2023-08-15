@@ -16,7 +16,16 @@ $(document).ready(function () {
       onPaste: function(e){
         console.log("Text detect...");
       }
-    }
+    },
+    toolbar: [
+      
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['font', ['strikethrough', 'superscript', 'subscript']],
+      ['fontsize', ['fontsize']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['height', ['height']]
+    ]
   });
   //Llenado de comboBox de las categorias orfecidas desde la DB
   $.post("../../controller/categoria.php?op=comboCat", function (data, status) {
@@ -34,6 +43,10 @@ function guardaryeditar(e) {
   if($('#tick_descrip').summernote('isEmpty') || $('#tick_titulo').val == ''){
     swal("Advertencia!", "Campos vacios","warning")
   }else{
+    var totalfiles = $('#fileElem').val().length;
+    for(var i = 0; i < totalfiles; i++){
+      formData.append("files[]", $('#fileElem')[0].files[i]);
+    }
     $.ajax({
       url: "../../controller/ticket.php?op=insert",
       type: "POST",
@@ -41,6 +54,7 @@ function guardaryeditar(e) {
       contentType: false,
       processData: false,
       success: function (datos) {
+        //console.log(datos);
         $('#tick_titulo').val('');
         $('#tick_descrip').summernote('reset');
         swal("Correcto!", "Ticket registrado correctamente", "success");
